@@ -1,0 +1,90 @@
+/* 1. Arka Planı ve Ekranı Ayarla */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Sayfanın kaydırılmasını (scroll) engeller */
+}
+
+html {
+    /* Arka plan görselini tam sığdırır ve ortalar */
+    background: url('pictures/drum.png') no-repeat center center fixed; 
+    background-size:auto; /* Görseli ekranı tamamen kaplayacak şekilde esnetir */
+    background-color: #979696;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    /* Dikey hizalamayı ortadan (center) alta (flex-end) çektik */
+    align-items: flex-end; 
+    justify-content: center;
+    /* Butonların zemine tamamen yapışmaması için alttan biraz boşluk bırakalım */
+    padding-bottom: 50px; 
+    box-sizing: border-box;
+}
+
+/* 2. Tuş Takımı Kapsayıcısı */
+.keys {
+    position: absolute;
+    bottom: 20px; /* Alttan 20px yukarıda */
+    left: 50%;
+    transform: translateX(-50%); /* Yatayda tam ortalamak için */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 3. Tuşların Boyutlarını Esnek Yap */
+.key {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin: 5px; /* Tuşlar arası boşluk */
+    transition: all 0.07s ease;
+    
+    /* Esnek boyutlandırma: Küçük ekranlarda küçülür */
+    width: clamp(70px, 10vw, 110px); 
+    padding: 15px 5px;
+    
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    box-sizing: border-box; /* Padding'in genişliğe dahil olmasını sağlar */
+}
+
+/* 4. Yazı Boyutlarını Ayarla */
+kbd {
+    display: block;
+    font-size: clamp(20px, 4vw, 40px); /* Ekran boyutuna göre küçülen font */
+    font-weight: bold;
+}
+
+.sound {
+    font-size: clamp(8px, 1.5vw, 12px);
+    text-transform: uppercase;
+    color: #ffc600;
+}
+
+/* Tanımsız tuş basıldığında body üzerinde tetiklenecek animasyon */
+.invalid-key {
+    animation: shake 0.5s ease-in-out;
+    background-color: rgba(244, 67, 54, 0.2) !important; /* Hafif kırmızı şeffaf katman */
+}
+
+/* Ekranın sarsılma efekti */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* --- Animasyonlar aynı kalıyor --- */
+.zil.playing { transform: translateY(-15px) scale(1.1); border-color: #ffeb3b; box-shadow: 0 0 20px #ffeb3b; }
+.davul.playing { transform: rotate(5deg) scale(1.1); border-color: #03a9f4; box-shadow: 0 0 20px #03a9f4; }
+.kick.playing { transform: scale(0.8); border-color: #f44336; box-shadow: 0 0 30px #f44336; }
